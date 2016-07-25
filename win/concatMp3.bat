@@ -1,4 +1,3 @@
-@echo off
 
 rem concatMp3.bat
 rem
@@ -22,7 +21,9 @@ shift /1
 :loop
     set ARGS=!ARGS!^^^|%1
     shift /1
-    if "" NEQ "%1" goto loop
+    if "" NEQ %1 goto loop
 
 rem mp3 結合コマンド発行
 ffmpeg -i concat:"!ARGS!" -acodec copy concated.mp3
+
+pause
