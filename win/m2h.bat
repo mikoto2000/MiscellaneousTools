@@ -11,7 +11,6 @@ rem 引数 : pandoc で変換可能な UTF-8 テキストファイルのリスト
 set THIS_DIR=%~dp0
 
 for %%t in (%*) do (
-    pandoc -f markdown+pandoc_title_block-ascii_identifiers -t html5 --standalone --self-contained --data-dir=%%~dpt --toc --css %THIS_DIR%\default.css %%t -o "%%~dpnt.html"
+    start cmd /c pandoc -f markdown+pandoc_title_block-ascii_identifiers -t html5 --standalone --self-contained --data-dir=%%~dpt --toc --css %THIS_DIR%\default.css %%t -o "%%~dpnt.html"
 )
 
-pause
