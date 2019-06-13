@@ -1,40 +1,40 @@
 # ColorTool.ps1
 #
-# ColorTool ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã‚’è¡Œã„ã¾ã™ã€‚
+# ColorTool ‚ÌƒCƒ“ƒXƒg[ƒ‹‚ğs‚¢‚Ü‚·B
 #
-# ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª: `$home\bin`
+# ƒCƒ“ƒXƒg[ƒ‹æƒfƒBƒŒƒNƒgƒŠ: `$home\bin`
 #
 $ColorToolTempFile="$env:TEMP\ColorTool.zip"
 $BinDir="$home\bin"
 
-# å‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ç¢ºèªãƒ»ç”Ÿæˆ
+# o—ÍæƒfƒBƒŒƒNƒgƒŠ‚ÌŠm”FE¶¬
 $DestDir=$BinDir
 if (-Not (Test-Path "$DestDir")) {
     Write-Host "create '$DestDir'."
     New-Item -ItemType Directory $DestDir
 }
 
-# ColorTool.exe ã®å­˜åœ¨ç¢ºèª
+# ColorTool.exe ‚Ì‘¶İŠm”F
 if (Test-Path "$DestDir\ColorTool.exe") {
     Write-Host "'$DestDir\ColorTool.exe' already exist."
 } else {
-    # ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰
+    # ƒ_ƒEƒ“ƒ[ƒh
     Write-Host "download ColorTool.zip."
     Invoke-WebRequest -Uri https://github.com/Microsoft/console/releases/download/1810.02002/ColorTool.zip -OutFile $ColorToolTempFile
 
-    # $home\bin ã«å±•é–‹
+    # $home\bin ‚É“WŠJ
     Write-Host "Expand ColorTool.zip to '$DestDir'."
     Expand-Archive -Path $ColorToolTempFile -DestinationPath $DestDir
 }
 
 
-# è‰²è¨­å®šãŒãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã«å­˜åœ¨ã—ã¦ã„ãªã‘ã‚Œã°è¨­å®šã‚’è¿½åŠ 
+# Fİ’è‚ªƒvƒƒtƒ@ƒCƒ‹‚É‘¶İ‚µ‚Ä‚¢‚È‚¯‚ê‚Îİ’è‚ğ’Ç‰Á
 $ColorToolCommand = "ColorTool.exe -q OneHalfDark"
 if (-Not (Get-Content $profile | Select-String -Quiet $ColorToolCommand)) {
     Write-Output "$ColorToolCommand" | Out-File -Append -Encoding "UTF8" -FilePath $($profile)
 }
 
-# å¾Œç‰‡ä»˜ã‘
+# Œã•Ğ•t‚¯
 if (Test-Path $ColorToolTempFile) {
     Remove-Item $ColorToolTempFile
 }

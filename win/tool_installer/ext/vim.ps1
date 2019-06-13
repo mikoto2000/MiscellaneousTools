@@ -1,9 +1,9 @@
 # vim.ps1
 #
-# vim ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã‚’è¡Œã„ã¾ã™ã€‚
+# vim ‚ÌƒCƒ“ƒXƒg[ƒ‹‚ğs‚¢‚Ü‚·B
 #
-# ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã™ã‚‹ Vim: https://github.com/vim/vim-win32-installer/releases
-# ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª: `$home\app`
+# ƒCƒ“ƒXƒg[ƒ‹‚·‚é Vim: https://github.com/vim/vim-win32-installer/releases
+# ƒCƒ“ƒXƒg[ƒ‹æƒfƒBƒŒƒNƒgƒŠ: `$home\app`
 
 $VimZipName="gvim_8.1.1177_x64.zip"
 $VimDownloadUrl="https://github.com/vim/vim-win32-installer/releases/download/v8.1.1177/$VimZipName"
@@ -16,28 +16,28 @@ $VimDirName="vim81"
 $DestDir="$home\app"
 
 
-# å‡ºåŠ›å…ˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ç¢ºèªãƒ»ç”Ÿæˆ
+# o—ÍæƒfƒBƒŒƒNƒgƒŠ‚ÌŠm”FE¶¬
 if (-Not (Test-Path "$DestDir")) {
     Write-Host "create '$DestDir'."
     New-Item -ItemType Directory $DestDir
 }
 
-# vim ã®å­˜åœ¨ç¢ºèª
+# vim ‚Ì‘¶İŠm”F
 if (Test-Path "$DestDir\$VimDirName") {
     Write-Host "'$DestDir\$VimDirName' already exist."
 } else {
-    # ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰
+    # ƒ_ƒEƒ“ƒ[ƒh
     Write-Host "download vim."
     Invoke-WebRequest -Uri $VimDownloadUrl -OutFile $VimZipPath
 
-    # $home\app ã«å±•é–‹
+    # $home\app ‚É“WŠJ
     Write-Host "Expand $VimZipName to '$DestDir'."
     Expand-Archive -Path $VimZipPath -DestinationPath $VimTempDir
     Move-Item -Path $VimTempDir\vim\vim81 -Destination $DestDir\$VimDirName
 }
 
 
-# å¾Œç‰‡ä»˜ã‘
+# Œã•Ğ•t‚¯
 if (Test-Path $VimZipPath) {
     Remove-Item $VimZipPath
 }
