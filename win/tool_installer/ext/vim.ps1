@@ -5,8 +5,8 @@
 # インストールする Vim: https://github.com/vim/vim-win32-installer/releases
 # インストール先ディレクトリ: `$home\app`
 
-$VimZipName="gvim_8.1.1523_x64.zip"
-$VimDownloadUrl="https://github.com/vim/vim-win32-installer/releases/download/v8.1.1523/$VimZipName"
+$VimZipName="gvim_8.1.1773_x86.zip"
+$VimDownloadUrl="https://github.com/vim/vim-win32-installer/releases/download/v8.1.1773/$VimZipName"
 #
 $VimTempDir="$env:TEMP\vim_tmp"
 $VimZipPath="$env:TEMP\$VimZipName"
