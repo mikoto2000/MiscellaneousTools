@@ -8,17 +8,11 @@ param(
 # XML ドキュメント読み込み
 $xml = [xml](Get-Content $XmlFile)
 
-# XPath 文字列で検索できるナビゲーターを作成
-$xpath_navigator = $xml.CreateNavigator()
-
 # XPath によるノード検索
-$node_iterator = $xpath_navigator.Select($XPath)
+$target_nodes = $xml.SelectNodes($XPath)
 
 # マッチしたノードを走査しながらノード情報を出力
-while ($node_iterator.MoveNext()) {
-    # XmlNode インスタンスを取得
-    $current_node = $node_iterator.Current.GetNode()
-
+foreach ($current_node in $target_nodes) {
     if ($current_node.HasChildNodes) {
         # 子要素のあるノードの場合
 
@@ -35,6 +29,5 @@ while ($node_iterator.MoveNext()) {
         # 取得したノードの名前と値を出力
         Write-Host ([String]::Format("{0} : {{ {1} }}", $current_node.name, $current_node.value))
     }
-
 }
 
