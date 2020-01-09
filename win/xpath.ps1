@@ -1,15 +1,45 @@
+<#
+.SYNOPSIS
+XML ファイルから XPath 文字列にマッチした要素を抽出します。
+
+.PARAMETER XmlFile
+XML ファイル
+
+.PARAMETER XPath
+抽出対象を現す XPath 文字列
+
+.PARAMETER Namespaces
+XPath で検索する際に使用する Namespace を指定
+
+.EXAMPLE
+xpath.ps1 -XmlFile target_file.xml -XPath //user
+
+.EXAMPLE
+xpath.ps1 -XmlFile target_file.xml -XPath //ns1:user -Namespaces @{prefix="ns1";uri="http://namespace1.example.com"},@{prefix="ns2";uri="http://namespace2.example.com"}
+
+#>
+
 param(
     [Parameter(Mandatory=$true, HelpMessage="XML file.")]
     [string]$XmlFile,
     [Parameter(Mandatory=$true, HelpMessage="XPath string.")]
-    [string]$XPath
+    [string]$XPath,
+    [Array]$Namespaces
 )
 
 # XML ドキュメント読み込み
 $xml = [xml](Get-Content $XmlFile)
+$ns_manager = [System.Xml.XmlNamespaceManager]::new($xml.NameTable)
+
+# 指定された Namespace の prefix と uri を mn_manager に追加
+if ($Namespaces -ne $Null) {
+    foreach ($Namespace in $Namespaces) {
+        $ns_manager.AddNamespace($Namespace['prefix'], $Namespace['uri'])
+    }
+}
 
 # XPath によるノード検索
-$target_nodes = $xml.SelectNodes($XPath)
+$target_nodes = $xml.SelectNodes($XPath, $ns_manager)
 
 # マッチしたノードを走査しながらノード情報を出力
 foreach ($current_node in $target_nodes) {
