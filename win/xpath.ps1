@@ -28,7 +28,7 @@ param(
 )
 
 # XML ドキュメント読み込み
-$xml = [xml](Get-Content $XmlFile)
+$xml = [xml](Get-Content -Encoding UTF8 $XmlFile)
 $ns_manager = [System.Xml.XmlNamespaceManager]::new($xml.NameTable)
 
 # 指定された Namespace の prefix と uri を mn_manager に追加
