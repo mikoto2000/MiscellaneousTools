@@ -5,13 +5,13 @@
 # インストールする Vim: https://github.com/vim/vim-win32-installer/releases
 # インストール先ディレクトリ: `$home\app`
 
-$VimZipName="gvim_8.1.1773_x86.zip"
-$VimDownloadUrl="https://github.com/vim/vim-win32-installer/releases/download/v8.1.1773/$VimZipName"
+$VimDownloadUrl="https://github.com/vim/vim-win32-installer/releases/download/v8.2.0814/gvim_8.2.0814_x64.zip"
+$VimZipName=[System.IO.Path]::GetFileName($VimDownloadUrl)
 #
 $VimTempDir="$env:TEMP\vim_tmp"
 $VimZipPath="$env:TEMP\$VimZipName"
 
-$VimDirName="vim81"
+$VimDirName="vim82"
 
 $DestDir="$home\app"
 
@@ -33,7 +33,7 @@ if (Test-Path "$DestDir\$VimDirName") {
     # $home\app に展開
     Write-Host "Expand $VimZipName to '$DestDir'."
     Expand-Archive -Path $VimZipPath -DestinationPath $VimTempDir
-    Move-Item -Path $VimTempDir\vim\vim81 -Destination $DestDir\$VimDirName
+    Move-Item -Path $VimTempDir\vim\$VimDirName -Destination $DestDir\$VimDirName
 }
 
 
