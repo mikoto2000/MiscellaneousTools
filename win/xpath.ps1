@@ -8,11 +8,17 @@ XML ファイル
 .PARAMETER XPath
 抽出対象を現す XPath 文字列
 
+.PARAMETER CurrentXPath
+XPath 検索を行う際に使用するカレントノードを現す XPath 文字列
+
 .PARAMETER Namespaces
 XPath で検索する際に使用する Namespace を指定
 
 .EXAMPLE
 xpath.ps1 -XmlFile target_file.xml -XPath //user
+
+.EXAMPLE
+xpath.ps1 -XmlFile target_file.xml  -CurrentXPath /xml/user[1] -XPath ./id
 
 .EXAMPLE
 xpath.ps1 -XmlFile target_file.xml -XPath //ns1:user -Namespaces @{prefix="ns1";uri="http://namespace1.example.com"},@{prefix="ns2";uri="http://namespace2.example.com"}
@@ -22,8 +28,10 @@ xpath.ps1 -XmlFile target_file.xml -XPath //ns1:user -Namespaces @{prefix="ns1";
 param(
     [Parameter(Mandatory=$true, HelpMessage="XML file.")]
     [string]$XmlFile,
-    [Parameter(Mandatory=$true, HelpMessage="XPath string.")]
+    [Parameter(Mandatory=$true, HelpMessage="Evaluate XPath string.")]
     [string]$XPath,
+    [Parameter(Mandatory=$true, HelpMessage="Current node XPath string.")]
+    [string]$CurrentXPath= '/',
     [Array]$Namespaces
 )
 
@@ -38,8 +46,11 @@ if ($Namespaces -ne $Null) {
     }
 }
 
+# カレントノードを検索
+$current_nodes = $xml.SelectNodes($CurrentXPath, $ns_manager)
+
 # XPath によるノード検索
-$target_nodes = $xml.SelectNodes($XPath, $ns_manager)
+$target_nodes = $current_nodes.SelectNodes($XPath, $ns_manager)
 
 # マッチしたノードを走査しながらノード情報を出力
 foreach ($current_node in $target_nodes) {

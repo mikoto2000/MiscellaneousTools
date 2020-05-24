@@ -2,13 +2,16 @@
 
 # xpath.rb
 #
-# 指定された XML ファイルを `--xpath` で指定された XPath 文字列で検索します。
+# 指定された XML ファイルを XPath 文字列で検索します。
 #
 # Example1:
 #     xpath.rb --xpath //user test.xml
 #
 # Example2:
 #     xpath.rb --xpath //ns1:user/ns2:id --namespace ns1,uri1 --namespace ns2,uri2 test.xml
+#
+# Example3:
+#     xpath.rb --current /xml/user[1] --xpath ./id test.xml
 #
 require "optparse"
 require "rexml/document"
@@ -22,7 +25,8 @@ def parse_option(argv)
 
   op.banner += " XML_FILE"
 
-  op.on("--xpath VALUE", String, "検索に使用する XPath 文字列"){|v| options[:xpath] = v }
+  op.on("--xpath EVALUATE_XPATH", String, "検索に使用する XPath 文字列"){|v| options[:xpath] = v }
+  op.on("--current CURRENT_XPATH", String, "EVALUATE_XPATH の検索を行う際に使用するカレント要素の XPath 文字列"){|v| options[:current] = v }
   op.on("--namespace PREFIX,URI", String, "検索に使用する namespace と uri。カンマ区切りで指定"){|v|
     prefix, uri = v.split(',')
     options[:namespaces][prefix] = uri
@@ -53,9 +57,14 @@ if __FILE__ == $0
   opts, argv = parse_option(ARGV)
 
   # xmL ファイル読み込み
-  xml_document = REXML::Document.new(File.open(argv[0]))
+  current_element = REXML::Document.new(File.open(argv[0]))
 
-  match_nodes = REXML::XPath.match(xml_document, opts[:xpath], opts[:namespaces])
+  # カレントエレメント検索
+  if opts[:current]
+    current_element =REXML::XPath.match(current_element, opts[:current], opts[:namespaces])
+  end
+
+  match_nodes = REXML::XPath.match(current_element, opts[:xpath], opts[:namespaces])
 
   # マッチしたノードを走査しながらノード情報を出力
   match_nodes.each { |current_node|
