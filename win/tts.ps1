@@ -11,6 +11,12 @@ SpeechSynthesizer を使用して、テキストを読み上げます。
 .PARAMETER SpeakerName
 読み上げ話者名。(話者一覧は ListSpeaker オプションで表示できます)
 
+.PARAMETER Rate
+話す速さ。-10～10 の値。デフォルト 0。
+
+.PARAMETER OutFile
+出力ファイル名。
+
 .PARAMETER ListSpeaker
 このオプションを付けて実行すると、使用可能な話者を一覧表示します。
 #>
@@ -19,6 +25,8 @@ param(
     [string]$Text,
     [Parameter(HelpMessage="話者名")]
     [string]$SpeakerName,
+    [Parameter(HelpMessage="話す速さ(-10～10)")]
+    [string]$Rate = 0,
     [Parameter(HelpMessage="音声データ出力ファイル名")]
     [string]$OutFile,
     [Parameter(HelpMessage="話者一覧表示")]
@@ -38,6 +46,8 @@ if ($ListSpeaker) {
 if ($SpeakerName -ne '') {
     $speaker.SelectVoice($SpeakerName)
 }
+
+$speaker.Rate = $Rate
 
 # 出力ファイル名指定がされている場合、 speaker に設定
 if ($OutFile -ne '') {
