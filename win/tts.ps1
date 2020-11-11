@@ -19,6 +19,8 @@ param(
     [string]$Text,
     [Parameter(HelpMessage="話者名")]
     [string]$SpeakerName,
+    [Parameter(HelpMessage="音声データ出力ファイル名")]
+    [string]$OutFile,
     [Parameter(HelpMessage="話者一覧表示")]
     [switch]$ListSpeaker
 )
@@ -37,6 +39,13 @@ if ($SpeakerName -ne '') {
     $speaker.SelectVoice($SpeakerName)
 }
 
+# 出力ファイル名指定がされている場合、 speaker に設定
+if ($OutFile -ne '') {
+    $speaker.SetOutputToWaveFile($OutFile)
+}
+
+
 # 話す
 $speaker.Speak($Text)
+$speaker.Dispose()
 
