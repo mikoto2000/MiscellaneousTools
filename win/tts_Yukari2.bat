@@ -9,6 +9,6 @@ rem
 rem 引数 : UTF-8 で記述されたテキストファイルのリスト
 
 for %%f in (%*) do (
-    VoiceroidController2 --voiceroid "結月ゆかり - オーディオブック" --split-size 20000 --input-file "%%~ff" --output-file "%%~dpnf.wav"
+    VoiceroidController2 --linebreak-to-period --voiceroid "結月ゆかり - オーディオブック" --split-size 20000 --input-file "%%~ff" --output-file "%%~dpnf.wav"
 )
 
