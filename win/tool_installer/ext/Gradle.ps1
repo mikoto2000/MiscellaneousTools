@@ -5,10 +5,10 @@
 # インストールする Gradle: https://gradle.org/releases/
 # インストール先ディレクトリ: `$home\app`
 
-$Version="5.4"
+$Version="6.4.1"
 $DirName="gradle-$Version"
 $ZipName="$DirName.zip"
-$DownloadUrl="https://services.gradle.org/distributions/gradle-5.4-bin.zip"
+$DownloadUrl="https://services.gradle.org/distributions/gradle-6.4.1-bin.zip"
 
 $TempZipPath="$env:TEMP\$ZipName"
 
