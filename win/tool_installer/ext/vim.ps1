@@ -5,7 +5,15 @@
 # インストールする Vim: https://github.com/vim/vim-win32-installer/releases
 # インストール先ディレクトリ: `$home\app`
 
-$VimDownloadUrl="https://github.com/vim/vim-win32-installer/releases/download/v8.2.4023/gvim_8.2.4023_x64.zip"
+
+# 最新バージョン取得
+$Owner="vim"
+$Repo="vim-win32-installer"
+$RepoPath="${Owner}/${Repo}"
+$LatestVersionTag=$(Invoke-RestMethod "https://api.github.com/repos/${RepoPath}/releases/latest").tag_name
+$LatestVersion=$LatestVersionTag.Remove(0, 1)
+
+$VimDownloadUrl="https://github.com/${RepoPath}/releases/download/${LatestVersionTag}/gvim_${LatestVersion}_x64.zip"
 $VimZipName=[System.IO.Path]::GetFileName($VimDownloadUrl)
 #
 $VimTempDir="$env:TEMP\vim_tmp"
