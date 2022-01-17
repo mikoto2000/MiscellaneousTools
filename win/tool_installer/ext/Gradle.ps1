@@ -5,10 +5,16 @@
 # インストールする Gradle: https://gradle.org/releases/
 # インストール先ディレクトリ: `$home\app`
 
-$Version="6.4.1"
-$DirName="gradle-$Version"
+# 最新バージョン取得
+$Owner="gradle"
+$Repo="gradle"
+$RepoPath="${Owner}/${Repo}"
+$LatestVersionTag=$(Invoke-RestMethod "https://api.github.com/repos/${RepoPath}/releases/latest").tag_name
+$LatestVersion=$LatestVersionTag.Remove(0, 1)
+
+$DirName="gradle-$LatestVersion"
 $ZipName="$DirName.zip"
-$DownloadUrl="https://services.gradle.org/distributions/gradle-6.4.1-bin.zip"
+$DownloadUrl="https://services.gradle.org/distributions/gradle-${LatestVersion}-bin.zip"
 
 $TempZipPath="$env:TEMP\$ZipName"
 
