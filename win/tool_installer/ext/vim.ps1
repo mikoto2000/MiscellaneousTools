@@ -31,18 +31,35 @@ if (-Not (Test-Path "$DestDir")) {
 }
 
 # vim の存在確認
+# - vim ディレクトリが存在しなければ、作成して展開
+# - vim ディレクトリが存在するならば、既に存在するディレクトリを `vim ディレクトリ_bkup` に移動して、vim ディレクトリに展開
+# - `vim ディレクトリ_bkup` も存在する場合、削除
 if (Test-Path "$DestDir\$VimDirName") {
     Write-Host "'$DestDir\$VimDirName' already exist."
-} else {
-    # ダウンロード
-    Write-Host "download vim."
-    Invoke-WebRequest -Uri $VimDownloadUrl -OutFile $VimZipPath
 
-    # $home\app に展開
-    Write-Host "Expand $VimZipName to '$DestDir'."
-    Expand-Archive -Path $VimZipPath -DestinationPath $VimTempDir
-    Move-Item -Path $VimTempDir\vim\$VimDirName -Destination $DestDir\$VimDirName
+    # vim ディレクトリの存在確認
+    $VimDirPath = "$DestDir\${VimDirName}"
+    $VimBkupDirPath = "${VimDirPath}_bkup"
+    if (Test-Path "$VimDirPath") {
+        # バックアップディレクトリの存在確認
+        # 存在していれば削除
+        if (Test-Path "$VimBkupDirPath") {
+            Remove-Item -Recurse -Path "$VimBkupDirPath"
+        }
+
+        # すでにある vim ディレクトリをバックアップディレクトリへ移動
+        Move-Item -Path "$VimDirPath" -Destination "$VimBkupDirPath"
+    }
 }
+
+# ダウンロード
+Write-Host "download vim."
+Invoke-WebRequest -Uri $VimDownloadUrl -OutFile $VimZipPath
+
+# $home\app に展開
+Write-Host "Expand $VimZipName to '$DestDir'."
+Expand-Archive -Path $VimZipPath -DestinationPath $VimTempDir
+Move-Item -Path $VimTempDir\vim\$VimDirName -Destination $DestDir\$VimDirName
 
 
 # 後片付け
