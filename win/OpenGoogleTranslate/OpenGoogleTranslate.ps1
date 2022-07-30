@@ -15,7 +15,7 @@ $text = [Windows.Forms.Clipboard]::GetText()
 $text = $text -replace "\r\n", " "
 $text = $text -replace "\n", " "
 
-$url = "https://translate.google.com/?hl=ja#en/ja/" + [System.Web.HttpUtility]::UrlEncode($text)
+$url = "https://translate.google.com/?sl=auto&hl=ja&tl=ja&text=" + [System.Web.HttpUtility]::UrlEncode($text) + "&op=translate"
 
 Start-Process "$url"
 
