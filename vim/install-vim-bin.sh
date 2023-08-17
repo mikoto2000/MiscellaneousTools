@@ -10,7 +10,7 @@
 # 引数チェック
 INSTALL_PATH="${1}"
 if [ "$1" = '' ]; then
-  INSTALL_PATH="/vim"
+  INSTALL_PATH="/"
 fi
 
 # vim-bin の基本情報
