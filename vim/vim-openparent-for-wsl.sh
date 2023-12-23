@@ -16,8 +16,12 @@ if [ "$2" == "" ];then
   VIM_SERVER=$(vim.exe --serverlist | head -n 1 | sed -e "s/\r//g")
 else
   VIM_SERVER=$2
-
 fi
 
-vim.exe --servername $VIM_SERVER --remote-send "<Cmd>wincmd W<CR><Cmd>e $(wslpath -w $1)<CR>"
+if [ "$VIM_SERVER" == "" ];then
+  gvim.exe $1
+else
+  gvim.exe --remote-send "<Cmd>split<CR>"
+  gvim.exe --remote "$1"
+fi
 
