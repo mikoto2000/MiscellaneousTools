@@ -19,7 +19,7 @@ $VimZipName=[System.IO.Path]::GetFileName($VimDownloadUrl)
 $VimTempDir="$env:TEMP\vim_tmp"
 $VimZipPath="$env:TEMP\$VimZipName"
 
-$VimDirName="vim90"
+$VimDirName="vim91"
 
 $DestDir="$home\app"
 
